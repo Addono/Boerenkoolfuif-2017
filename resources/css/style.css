@@ -1,0 +1,16 @@
+.first {
+    padding-top: 15vh;
+}
+
+.header-text {
+    margin-top: 20vh;
+    margin-bottom: 15vh;
+}
+
+.header-text > h1, .header-text > h4, .header-text > p {
+    color: #fff;
+}
+
+.btn-background-white {
+    background-color: #fff !important;
+}
