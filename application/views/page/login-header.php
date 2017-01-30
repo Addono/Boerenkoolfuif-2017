@@ -18,21 +18,21 @@
                     <div class="content">
 
                         <div class="input-group">
-										<span class="input-group-addon">
-											<i class="material-icons">face</i>
-										</span>
+                            <span class="input-group-addon">
+                                <i class="material-icons">face</i>
+                            </span>
                             <input type="text" name="username" class="form-control" placeholder="Gebruikersnaam..." />
                         </div>
 
                         <div class="input-group">
-										<span class="input-group-addon">
-											<i class="material-icons">lock_outline</i>
-										</span>
+                            <span class="input-group-addon">
+                                <i class="material-icons">lock_outline</i>
+                            </span>
                             <input type="password" name="password" placeholder="Wachtwoord..." class="form-control" />
                         </div>
                     </div>
                     <div class="footer text-center">
-                        <a href="" class="btn btn-simple btn-primary btn-lg">Log in</a>
+                        <input type="submit" value="Log in" class="btn btn-simple btn-primary btn-lg">
                     </div>
                 </form>
             </div>
