@@ -19,3 +19,9 @@
     font-size: 22px !important;
     max-width: 22px !important;
 }
+
+.nav form button.btn {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+}

@@ -55,21 +55,21 @@
                 <?php if($loggedIn) { ?>
                 <li>
                     <a href="<?php echo site_url('account');?>" class="btn btn-simple btn-white" target="_self">
-                        <i class="material-icons header-icon">account_box</i> Mijn account
+                        <i class="material-icons">account_box</i> <?php echo $username?>
                     </a>
                 </li>
                 <li>
                     <form class="form" method="post" action="<?php echo site_url('')?>" class="inline-form">
                         <input type="hidden" name="type" value="logout" />
                         <button type="submit" class="btn btn-simple btn-white">
-                            <i class="material-icons header-icon">account_box</i> Uitloggen
+                            <i class="material-icons">exit_to_app</i> Uitloggen
                         </button>
                     </form>
                 </li>
                 <?php } else { ?>
                 <li>
                     <a href="<?php echo site_url('login');?>" class="btn btn-simple btn-white" target="_self">
-                        <i class="material-icons header-icon">account_box</i> Inloggen
+                        <i class="material-icons">account_box</i> Inloggen
                     </a>
                 </li>
                 <?php } ?>

@@ -11,15 +11,17 @@ class Page extends CI_Controller {
         // Import all helpers and libraries.
         $this->load->helper('url');
         $this->load->helper('score');
+        $this->load->model('Users');
         $this->load->library('session');
 
         // Check if the user is logged in
         $this->data['loggedIn'] = $this->session->username !== NULL;
+        $this->data['username'] = $this->session->username;
         if($this->data['loggedIn'] && $page == 'login') {
             $page = self::DefaultValue;
         }
 
-        $this->handlePost();
+        $this->data['post'] = $this->handlePost();
 
         $pageType = 'page';
         $headerPage = "page/$page-header.php";
@@ -68,24 +70,26 @@ class Page extends CI_Controller {
         echo $type;
         switch($type) {
             case 'login':
-                $username = $this->input->post('username'); // Add input validation
-                $password = $this->input->post('password');
+                $result['username'] = $this->input->post('username'); // Add input validation
+                $result['password'] = $this->input->post('password');
 
-                $result['usernameSet'] = $username !== '';
-                $result['passwordSet'] = $password !== '';
+                $result['usernameSet'] = $result['username'] !== '';
+                $result['passwordSet'] = $result['password'] !== '';
 
-                if(!$result['usernameSet'] || !$result['usernameSet']) {
-
+                if(!$result['usernameSet'] || !$result['passwordSet']) {
+                    $result['loginFailed'] = 'invalidForm';
+                    break;
                 }
 
                 if($this->data['loggedIn']) {
                     $result['loginFailed'] = 'alreadyLoggedIn';
-                } elseif(true) { // Check if the password is correct
-                    $this->session->username = $username;
+                } elseif($this->Users->checkCredentials($result['username'], $result['password'])) { // Check if the password is correct
+                    $this->session->username = $result['username'];
                     session_write_close();
 
                     $result['loginFailed'] = false;
                     $this->data['loggedIn'] = true;
+                    $this->data['username'] = $result['username'];
                     $this->data['redirect'] = site_url('account'); // Redirect the user to the homepage
                     $this->data['redirectTime'] = 2;
                 } else {
@@ -97,6 +101,7 @@ class Page extends CI_Controller {
                     $this->session->sess_destroy();
                     $result['failure'] = false;
                     $this->data['loggedIn'] = false;
+                    $this->data['username'] = null;
                 } else {
                     $result['failure'] = 'notLoggedIn';
                 }
