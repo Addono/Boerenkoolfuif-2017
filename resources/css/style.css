@@ -14,3 +14,8 @@
 .btn-background-white {
     background-color: #fff !important;
 }
+
+.nav .material-icons {
+    font-size: 22px !important;
+    max-width: 22px !important;
+}

@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Page extends CI_Controller {
     const DefaultValue = 'default';
 
+    private $data = ['redirectTime' => 0];
+
     public function index($page = self::DefaultValue)
     {
         // Import all helpers and libraries.
@@ -12,12 +14,12 @@ class Page extends CI_Controller {
         $this->load->library('session');
 
         // Check if the user is logged in
-        $data['loggedIn'] = $this->session->username !== NULL;
-        if($data['loggedIn'] && $page == 'login') {
+        $this->data['loggedIn'] = $this->session->username !== NULL;
+        if($this->data['loggedIn'] && $page == 'login') {
             $page = self::DefaultValue;
         }
 
-        $this->handlePost($this->input->post('type'));
+        $this->handlePost();
 
         $pageType = 'page';
         $headerPage = "page/$page-header.php";
@@ -30,11 +32,14 @@ class Page extends CI_Controller {
             $pageType = 'error';
             $page = 'pageNotFound';
         }
+        if(key_exists('redirect', $this->data)) {
+            $pageType = 'redirect';
+        }
 
         //echo calculateScore('france', 3, 4, 3, 'noClue');
 
         // Show the page.
-        $this->load->view('templates/header', $data);
+        $this->load->view('templates/header', $this->data);
         switch($pageType) {
             case 'page':
                 if($hasHeader) {
@@ -48,17 +53,58 @@ class Page extends CI_Controller {
             case 'error':
                 $this->load->view('error/'.$page);
                 $this->load->view('templates/intersection');
+            break;
+            case 'redirect':
+                $this->load->view('redirect/'.$page.'-redirect-header');
+                $this->load->view('templates/intersection');
+            break;
         }
         $this->load->view('templates/footer');
     }
 
-    private function handlePost($type) {
+    private function handlePost() {
+        $type = $this->input->post('type');
+        $result['type'] = $type;
+        echo $type;
         switch($type) {
             case 'login':
+                $username = $this->input->post('username'); // Add input validation
+                $password = $this->input->post('password');
 
+                $result['usernameSet'] = $username !== '';
+                $result['passwordSet'] = $password !== '';
+
+                if(!$result['usernameSet'] || !$result['usernameSet']) {
+
+                }
+
+                if($this->data['loggedIn']) {
+                    $result['loginFailed'] = 'alreadyLoggedIn';
+                } elseif(true) { // Check if the password is correct
+                    $this->session->username = $username;
+                    session_write_close();
+
+                    $result['loginFailed'] = false;
+                    $this->data['loggedIn'] = true;
+                    $this->data['redirect'] = site_url('account'); // Redirect the user to the homepage
+                    $this->data['redirectTime'] = 2;
+                } else {
+                    $result['loginFailed'] = 'incorrectCredentials';
+                }
+                break;
+            case 'logout':
+                if($this->data['loggedIn']) {
+                    $this->session->sess_destroy();
+                    $result['failure'] = false;
+                    $this->data['loggedIn'] = false;
+                } else {
+                    $result['failure'] = 'notLoggedIn';
+                }
                 break;
             default: // Ignore all other values
                 break;
         }
+
+        return $result;
     }
 }
