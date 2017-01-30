@@ -19,7 +19,7 @@
                     </nav>
                     -->
                     <div class="copyright">
-                        &copy; 2017, gemaakt met <i class="fa fa-heart heart"></i> door de Boerenkoolfuif Commissie 2017
+                        &copy; 2017, Boerenkoolfuif Commissie 2017
                     </div>
                 </div>
             </footer>
