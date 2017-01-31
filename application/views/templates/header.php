@@ -8,14 +8,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <?php if(isset($redirect)) { ?>
-    <meta http-equiv="refresh" content="<?php echo $redirectTime?>; url=<?php echo $redirect?>">
-    <script type="text/javascript">
-        window.setTimeout(function() {
-            window.location.href = "<?php echo $redirect?>"
-        }, <?php echo $redirectTime * 1000 ?>);
-    </script>
-    <?php } ?>
     <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url('resources/img/apple-icon.png')?>">
     <link rel="icon" type="image/png" href="<?php echo base_url('resources/img/favicon.png')?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />

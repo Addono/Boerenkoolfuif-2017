@@ -9,10 +9,14 @@ class Page extends CI_Controller {
     public function index($page = self::DefaultValue)
     {
         // Import all helpers and libraries.
-        $this->load->helper('url');
-        $this->load->helper('score');
+        $this->load->helper([
+            'url',
+            'score',
+        ]);
         $this->load->model('Users');
-        $this->load->library('session');
+        $this->load->library([
+            'session',
+        ]);
 
         // Check if the user is logged in
         $this->data['loggedIn'] = $this->session->username !== NULL;
@@ -56,10 +60,6 @@ class Page extends CI_Controller {
                 $this->load->view('error/'.$page);
                 $this->load->view('templates/intersection');
             break;
-            case 'redirect':
-                $this->load->view('redirect/'.$page.'-redirect-header');
-                $this->load->view('templates/intersection');
-            break;
         }
         $this->load->view('templates/footer');
     }
@@ -90,8 +90,7 @@ class Page extends CI_Controller {
                     $result['loginFailed'] = false;
                     $this->data['loggedIn'] = true;
                     $this->data['username'] = $result['username'];
-                    $this->data['redirect'] = site_url('account'); // Redirect the user to the homepage
-                    $this->data['redirectTime'] = 2;
+                    redirect();
                 } else {
                     $result['loginFailed'] = 'incorrectCredentials';
                 }
