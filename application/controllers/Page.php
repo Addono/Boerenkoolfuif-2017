@@ -4,19 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Page extends CI_Controller {
     const DefaultValue = 'default';
 
-    private $data = ['redirectTime' => 0];
+    private $data = ['errors' => []];
 
     public function index($page = self::DefaultValue)
     {
         // Import all helpers and libraries.
         $this->load->helper([
             'url',
+            'form',
             'score',
         ]);
         $this->load->model('Users');
         $this->load->library([
             'session',
+            'form_validation'
         ]);
+
+        var_dump($this->session->username);
 
         // Check if the user is logged in
         $this->data['loggedIn'] = $this->session->username !== NULL;
@@ -25,21 +29,16 @@ class Page extends CI_Controller {
             $page = self::DefaultValue;
         }
 
-        $this->data['post'] = $this->handlePost();
-
         $pageType = 'page';
-        $headerPage = "page/$page-header.php";
-        $bodyPage = "page/$page-body.php";
+        $headerPage = "page/$page-header";
+        $bodyPage = "page/$page-body";
 
-        $hasHeader = file_exists('./application/views/'.$headerPage);
-        $hasBody = file_exists('./application/views/'.$bodyPage);
+        $hasHeader = file_exists('./application/views/'.$headerPage.'.php');
+        $hasBody = file_exists('./application/views/'.$bodyPage.'.php');
 
         if(!$hasHeader && !$hasBody) { // Check if the page exists
             $pageType = 'error';
             $page = 'pageNotFound';
-        }
-        if(key_exists('redirect', $this->data)) {
-            $pageType = 'redirect';
         }
 
         //echo calculateScore('france', 3, 4, 3, 'noClue');
@@ -48,12 +47,13 @@ class Page extends CI_Controller {
         $this->load->view('templates/header', $this->data);
         switch($pageType) {
             case 'page':
+                $this->handlePage($page);
                 if($hasHeader) {
-                $this->load->view($headerPage);
+                    $this->load->view($headerPage, $this->data);
                 }
                 $this->load->view('templates/intersection');
                 if($hasBody) {
-                    $this->load->view($bodyPage);
+                    $this->load->view($bodyPage, $this->data);
                 }
             break;
             case 'error':
@@ -64,51 +64,72 @@ class Page extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    private function handlePost() {
-        $type = $this->input->post('type');
-        $result['type'] = $type;
-        echo $type;
-        switch($type) {
+    /**
+     * Handles some actions specific for certain pages.
+     * @param $page
+     */
+    private function handlePage($page) {
+        switch($page) {
             case 'login':
-                $result['username'] = $this->input->post('username'); // Add input validation
-                $result['password'] = $this->input->post('password');
+                $rules = [
+                    [
+                        'field' => 'username',
+                        'label' => 'Gebruikersnaam',
+                        'rules' => [
+                            'required',
+                        ],
+                        'errors' => [
+                            'required' => 'Vul uw gebruikersnaam in.',
+                        ],
+                    ],
+                    [
+                        'field' => 'password',
+                        'label' => 'Pin',
+                        'rules' => 'required',
+                        'errors' => [
+                            'required' => 'Vul de pincode in.',
+                        ],
+                    ],
+                    [
+                        'field' => 'username',
+                        'label' => 'Gebruikersnaam',
+                        'rules' => [
+                            ['usernameExists', [$this->Users, 'userExists']],
+                        ],
+                        'errors' => [
+                            'usernameExists' => 'Gebruikersnaam bestaat niet.',
+                        ],
+                    ],
+                ];
 
-                $result['usernameSet'] = $result['username'] !== '';
-                $result['passwordSet'] = $result['password'] !== '';
+                // Parse all rules individually to enforce the order.
+                $hasError = false;
+                foreach($rules as $rule) {
+                    $this->form_validation->set_rules([$rule]);
 
-                if(!$result['usernameSet'] || !$result['passwordSet']) {
-                    $result['loginFailed'] = 'invalidForm';
+                    if(!$this->form_validation->run()) {
+                        $hasError = true;
+                        break;
+                    }
+
+                    $this->form_validation->reset_validation()->set_data($_POST);
+                }
+                if($hasError) {
+                    break;
+                } elseif($this->Users->checkCredentials(set_value('username'), set_value('password'))) { // Check if the credentials are valid
+                    $this->session->username = set_value('username');
+                    redirect('');
+                    break;
+                } else {
+                    $this->data['errors'][] = 'Ongeldige combinatie van gebruikersnaam en pincode.';
                     break;
                 }
-
-                if($this->data['loggedIn']) {
-                    $result['loginFailed'] = 'alreadyLoggedIn';
-                } elseif($this->Users->checkCredentials($result['username'], $result['password'])) { // Check if the password is correct
-                    $this->session->username = $result['username'];
-                    session_write_close();
-
-                    $result['loginFailed'] = false;
-                    $this->data['loggedIn'] = true;
-                    $this->data['username'] = $result['username'];
-                    redirect();
-                } else {
-                    $result['loginFailed'] = 'incorrectCredentials';
-                }
-                break;
             case 'logout':
-                if($this->data['loggedIn']) {
-                    $this->session->sess_destroy();
-                    $result['failure'] = false;
-                    $this->data['loggedIn'] = false;
-                    $this->data['username'] = null;
-                } else {
-                    $result['failure'] = 'notLoggedIn';
-                }
-                break;
-            default: // Ignore all other values
+                $this->session->sess_destroy();
+                redirect();
+                exit;
+            default:
                 break;
         }
-
-        return $result;
     }
 }

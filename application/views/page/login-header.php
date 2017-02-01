@@ -3,23 +3,19 @@
  * @author Adriaan Knapen <a.d.knapen@protonmail.com>
  * @date 29-1-2017
  */
-$v = key_exists('type', $post) && $post['type'] == 'login';
-var_dump($v);
 ?>
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
             <div class="card card-signup">
-                <form class="form" method="post" action="<?php echo site_url('login')?>">
+                <?=form_open()?>
                     <input type="hidden" name="type" value="login" />
                     <div class="header header-primary text-center">
                         <h4>Log in</h4>
-                        <?php if($v && $post['loginFailed']) { ?>
-                        <p>
-                            Inloggen mislukt, heeft u zeker de juiste inlog gegevens ingevuld?
-                        </p>
+                        <?=validation_errors()?>
                         <?php
-
+                        foreach($errors as $error) {
+                            echo '<p>'.$error.'</p>';
                         }
                         ?>
                     </div>
@@ -30,7 +26,7 @@ var_dump($v);
                             <span class="input-group-addon">
                                 <i class="material-icons">face</i>
                             </span>
-                            <input type="text" name="username" class="form-control" placeholder="Gebruikersnaam..." value="<?php echo $v?$post['username']:'';?>" />
+                            <input type="text" name="username" class="form-control" placeholder="Gebruikersnaam..." value="<?=set_value('username')?>" />
                         </div>
 
                         <div class="input-group">

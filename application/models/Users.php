@@ -44,6 +44,11 @@ class Users extends CI_Model {
         return $this->db->count_all_results($this->usersTable) !== 0;
     }
 
+    public function userExists($username) {
+        $this->db->where(['username' => $username]);
+        return $this->db->count_all_results($this->usersTable) !== 0;
+    }
+
     /**
      * Resets the pin of a user.
      * @param $username

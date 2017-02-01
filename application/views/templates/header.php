@@ -51,12 +51,9 @@
                     </a>
                 </li>
                 <li>
-                    <form class="form" method="post" action="<?php echo site_url('')?>" class="inline-form">
-                        <input type="hidden" name="type" value="logout" />
-                        <button type="submit" class="btn btn-simple btn-white">
-                            <i class="material-icons">exit_to_app</i> Uitloggen
-                        </button>
-                    </form>
+                    <a href="<?php echo site_url('logout');?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">exit_to_app</i> UItloggen
+                    </a>
                 </li>
                 <?php } else { ?>
                 <li>
