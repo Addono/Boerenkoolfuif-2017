@@ -20,8 +20,6 @@ class Page extends CI_Controller {
             'form_validation'
         ]);
 
-        var_dump($this->session->username);
-
         // Check if the user is logged in
         $this->data['loggedIn'] = $this->session->username !== NULL;
         $this->data['username'] = $this->session->username;
