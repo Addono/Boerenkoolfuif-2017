@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property    CI_Form_validation  $form_validation
+ * @property    Users               $Users
+ * @property    CI_Session          $session
+ */
 class Page extends CI_Controller {
     const DefaultValue = 'default';
 
