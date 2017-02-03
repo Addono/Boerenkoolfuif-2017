@@ -4,33 +4,35 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * @author Adriaan Knapen <a.d.knapen@protonmail.com>
  * @date 29-1-2017
  */
-global $ratios;
-$ratios = [
-    'netherlands' => [
-        3, // Boerenkool
-        5, // Aardappelen
-        2, // Worst
-        'mosterd', // Speciality
-    ],
-    'france' => [
-        4, // Red union
-        2, // Pommes de Terres
-        5, // Jambon
-        'escargots', // Speciality
-    ],
-    'germany' => [
-        6, // Sauerkraut
-        4, // Kartoffeln
-        6, // Bradwurst
-        'curry', // Speciality
-    ],
-    'belgium' => [
-        1, // Picallily
-        4, // Patat
-        3, // Stoofvlees
-        'zureMayo',
-    ],
-];
+if(!isset($ratios)) {
+    global $ratios;
+    $ratios = [
+        'netherlands' => [
+            3, // Boerenkool
+            5, // Aardappelen
+            2, // Worst
+            'mustard', // Speciality
+        ],
+        'france' => [
+            4, // Red union
+            2, // Pommes de Terres
+            5, // Jambon
+            'escargots', // Speciality
+        ],
+        'germany' => [
+            6, // Sauerkraut
+            4, // Kartoffeln
+            6, // Bradwurst
+            'curry', // Speciality
+        ],
+        'belgium' => [
+            1, // Picallily
+            4, // Patat
+            3, // Stoofvlees
+            'mayonaise',
+        ],
+    ];
+}
 
 if (!function_exists('calculateScore')) {
     function calculateScore($region, $veg, $potato, $meat, $specialty)
@@ -45,17 +47,17 @@ if (!function_exists('calculateScore')) {
         }
 
         $ratio = $ratios[$region];
-        $score = 3;
+        $score = 5;
         if ($specialty == $ratio[3]) {
             $score += 2;
         } else {
             $score -= 1;
         }
-        $score += (5/3) * normalDistributionRatio($veg, $ratio[0]);
-        $score += (5/3) * normalDistributionRatio($potato, $ratio[1]);
-        $score += (5/3) * normalDistributionRatio($meat, $ratio[2]);
+        $score += (4/3) * normalDistributionRatio($veg, $ratio[0]);
+        $score += (4/3) * normalDistributionRatio($potato, $ratio[1]);
+        $score += (4/3) * normalDistributionRatio($meat, $ratio[2]);
 
-        return $score;
+        return min([10, round($score)]);
     }
 }
 

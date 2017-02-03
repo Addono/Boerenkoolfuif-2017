@@ -1,6 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property    CI_Form_validation  $form_validation
+ * @property    Users               $Users
+ * @property    Receipt             $Receipt
+ * @property    CI_Session          $session
+ * @property    CI_DB_query_builder $db
+ */
 class Page extends CI_Controller {
     const DefaultValue = 'default';
 
@@ -42,8 +49,6 @@ class Page extends CI_Controller {
             $page = 'pageNotFound';
         }
 
-        //echo calculateScore('france', 3, 4, 3, 'noClue');
-
         // Show the page.
         $this->load->view('templates/header', $this->data);
         switch($pageType) {
@@ -71,6 +76,12 @@ class Page extends CI_Controller {
      */
     private function handlePage($page, $subPage) {
         switch($page) {
+            case 'top':
+                $countries = ['netherlands', 'belgium', 'france', 'germany'];
+                foreach($countries as $country) {
+                    $this->data['top'][$country] = $this->Users->topUsers($country);
+                }
+                break;
             case 'add':
                 // Check if the user is logged in.
                 if(!$this->data['loggedIn']){
@@ -84,9 +95,10 @@ class Page extends CI_Controller {
                 }
                 switch($subPage) {
                     case null:
+                        $subPage = 'netherlands';
                     case 'netherlands':
                         $this->data['country'] = 'Nederlands';
-                        $this->data['resources'] = ['Boerenkool', 'Aardappelen', 'Worst'];
+                        $this->data['resources'] = ['boerenkool', 'aardappelen', 'worst'];
                         break;
                     case 'germany':
                         $this->data['country'] = 'Duits';
@@ -94,29 +106,29 @@ class Page extends CI_Controller {
                         break;
                     case 'france':
                         $this->data['country'] = 'Frans';
-                        $this->data['resources'] = ['Rode ui', 'Pommes de Terres', 'Jambon'];
+                        $this->data['resources'] = ['rode ui', 'pommes de terres', 'jambon'];
                         break;
                     case 'belgium':
                         $this->data['country'] = 'Belgisch';
-                        $this->data['resources'] = ['Picallily', 'Patat', 'Stoofvlees'];
+                        $this->data['resources'] = ['picallily', 'patat', 'stoofvlees'];
                         break;
                     default:
                         redirect('pageNotFound');
                         break;
                 }
                 $this->data['specialties'] = [
-                    'mustard' => 'Zaanse mosterd',
-                    'curry' => 'Curry',
-                    'mayonaise' => 'Zure mayo',
-                    'escargots' => 'Escargots',
-                    'pickle' => 'Augurken',
-                    'union' => 'Amsterdamse ui',
-                    'fryed_union' => 'Gefrituurde ui',
-                    'rosti' => 'Rösti',
-                    'sprouts' => 'Spruiten',
-                    'chocolates' => 'Bonbons',
-                    'ketchup' => 'Ketchup',
-                    'camembert' => 'Camembert',
+                    'mustard' => 'zaanse mosterd',
+                    'curry' => 'curry',
+                    'mayonaise' => 'zure mayo',
+                    'escargots' => 'escargots',
+                    'pickle' => 'augurken',
+                    'union' => 'amsterdamse ui',
+                    'fryed_union' => 'gefrituurde ui',
+                    'rosti' => 'rösti',
+                    'sprouts' => 'spruiten',
+                    'chocolates' => 'bonbons',
+                    'ketchup' => 'ketchup',
+                    'camembert' => 'camembert',
                 ];
                 $this->data['usernames'] = $this->Users->getUsernames();
                 $rules = [
@@ -145,28 +157,32 @@ class Page extends CI_Controller {
                 ];
                 for($i = 0; $i < 3; $i++) {
                     $name = $this->data['resources'][$i];
-                    $rules[] = [
-                        [
-                            'field' => 'resource'.$i,
-                            'label' => $name,
-                            'rules' => [
-                                'required',
-                                'less_than_equal_to[6]',
-                                'greater_than[0]',
-                            ],
-                            'errors' => [
-                                'required' => 'Geef de hoeveelheid '.$name.' aan.',
-                                'greater_than[0]' => 'Ongeldige hoeveelheid '.$name.'.',
-                                'less_than_equal_to[6]' => 'Ongeldige hoeveelheid '.$name.'.',
-                            ],
+                    $rules[]= [
+                        'field' => 'resource'.$i,
+                        'label' => $name,
+                        'rules' => [
+                            'required',
+
+                        ],
+                        'errors' => [
+                            'required' => 'Geef de hoeveelheid <i>'.$name.'</i> aan.',
+
                         ],
                     ];
                 }
                 $this->form_validation->set_rules($rules);
                 if($this->form_validation->run()) {
-                    var_dump(1);
+                    $this->data['score'] = $this->Receipt->insertReceipt(
+                        set_value('username'),
+                        set_value('resource0'),
+                        set_value('resource1'),
+                        set_value('resource2'),
+                        set_value('specialty'),
+                        $subPage
+                    );
+                    $this->data['success'] = true;
                 } else {
-                    var_dump(0);
+                    $this->data['success'] = false;
                 }
                 break;
             case 'login':
@@ -209,12 +225,10 @@ class Page extends CI_Controller {
                 $hasError = false;
                 foreach($rules as $rule) {
                     $this->form_validation->set_rules([$rule]);
-
                     if(!$this->form_validation->run()) {
                         $hasError = true;
                         break;
                     }
-
                     $this->form_validation->reset_validation()->set_data($_POST);
                 }
                 if($hasError) {

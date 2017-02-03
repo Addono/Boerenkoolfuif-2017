@@ -1,5 +1,7 @@
 <?php
+
 /**
+ * @property  CI_DB_driver $db
  * @author Adriaan Knapen <a.d.knapen@protonmail.com>
  * @date 30-01-2017
  */
@@ -34,7 +36,7 @@ class Receipt extends CI_Model {
             'score' => calculateScore($country, $resource0, $resource1, $resource2, $specialty),
             'country' => $country,
         ];
-        if($this->db->insert_string($this->receiptsTable, $data)) {
+        if($this->db->insert($this->receiptsTable, $data)) {
             return $data['score'];
         } else {
             return false;

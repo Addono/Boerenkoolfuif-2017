@@ -1,14 +1,18 @@
 <?php
+
 /**
+ * @property  CI_DB_query_builder   $db
  * @author Adriaan Knapen <a.d.knapen@protonmail.com>
  * @date 30-01-2017
  */
 class Users extends CI_Model {
     private $usersTable = 'users_table';
+    private $receiptsTable = 'receipts_entries';
 
     public function __construct()
     {
-        $this->load->database();
+        $ci =& get_instance();
+        $ci->load->database();
     }
 
     /**
@@ -71,7 +75,6 @@ class Users extends CI_Model {
             ->get($this->usersTable)
             ->row()
             ->id;
-
     }
 
     /**
@@ -103,5 +106,18 @@ class Users extends CI_Model {
             $pin .= strval(random_int(0,9));
         }
         return $pin;
+    }
+
+    public function topUsers($region, $amount = 10) {
+        return $this->db
+            ->select($this->usersTable.'.username')
+            ->select_max($this->receiptsTable.'.score')
+            ->where([$this->receiptsTable.'.country' => $region])
+            ->where($this->usersTable.'.id = '.$this->receiptsTable.'.group_id')
+            ->group_by($this->usersTable.'.username')
+            ->limit($amount)
+            ->order_by($this->receiptsTable.'.score', 'DESC')
+            ->get([$this->usersTable, $this->receiptsTable])
+            ->result();
     }
 }

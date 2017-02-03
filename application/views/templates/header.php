@@ -8,8 +8,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url('resources/img/apple-icon.png')?>">
-    <link rel="icon" type="image/png" href="<?php echo base_url('resources/img/favicon.png')?>">
+    <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url('resources/img/apple-icon.png')?>">
+    <link rel="icon" type="image/png" href="<?=base_url('resources/img/favicon.png')?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <title>Boerenkoolfuif 2017</title>
@@ -19,12 +19,12 @@
     <!--     Fonts and icons     -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
     <!-- CSS Files -->
-    <link href="<?php echo base_url('resources/css/bootstrap.min.css')?>" rel="stylesheet" />
-    <link href="<?php echo base_url('resources/css/material-kit.css')?>" rel="stylesheet"/>
-    <link href="<?php echo base_url('resources/css/style.css')?>" rel="stylesheet" />
+    <link href="<?=base_url('resources/css/bootstrap.min.css')?>" rel="stylesheet" />
+    <link href="<?=base_url('resources/css/material-kit.css')?>" rel="stylesheet"/>
+    <link href="<?=base_url('resources/css/style.css')?>" rel="stylesheet" />
 </head>
 
 <body>
@@ -39,31 +39,36 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?php echo site_url()?>">ProlPa StampAwards 2017</a>
+            <a class="navbar-brand" href="<?=site_url()?>">ProlPa StampAwards 2017</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navigation">
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="<?=site_url('top')?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">star</i> Top scores
+                    </a>
+                </li>
             <?php if($loggedIn) {
                 if($role === 'admin') {?>
                 <!-- Admin specific buttons -->
                 <li>
-                    <a href="<?php echo site_url('add/netherlands');?>" class="btn btn-simple btn-white" target="_self">
+                    <a href="<?=site_url('add/netherlands')?>" class="btn btn-simple btn-white" target="_self">
                         <i class="material-icons">add</i> Nederland
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo site_url('add/belgium');?>" class="btn btn-simple btn-white" target="_self">
+                    <a href="<?=site_url('add/belgium')?>" class="btn btn-simple btn-white" target="_self">
                         <i class="material-icons">add</i> België
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo site_url('add/germany');?>" class="btn btn-simple btn-white" target="_self">
+                    <a href="<?=site_url('add/germany')?>" class="btn btn-simple btn-white" target="_self">
                         <i class="material-icons">add</i> Duitsland
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo site_url('add/france');?>" class="btn btn-simple btn-white" target="_self">
+                    <a href="<?=site_url('add/france')?>" class="btn btn-simple btn-white" target="_self">
                         <i class="material-icons">add</i> Frankrijk
                     </a>
                 </li>
@@ -71,13 +76,13 @@
                 <!-- User specific buttons -->
                 <?php } ?>
                 <li>
-                    <a href="<?php echo site_url('logout');?>" class="btn btn-simple btn-white" target="_self">
+                    <a href="<?=site_url('logout')?>" class="btn btn-simple btn-white" target="_self">
                         <i class="material-icons">exit_to_app</i> Uitloggen
                     </a>
                 </li>
             <?php } else { ?>
                 <li>
-                    <a href="<?php echo site_url('login');?>" class="btn btn-simple btn-white" target="_self">
+                    <a href="<?=site_url('login')?>" class="btn btn-simple btn-white" target="_self">
                         <i class="material-icons">account_box</i> Inloggen
                     </a>
                 </li>
@@ -98,7 +103,6 @@
 </nav>
 
 <div class="wrapper">
-    <div class="header header-filter first" style="background-image: url('https://images.unsplash.com/photo-1423655156442-ccc11daa4e99?crop=entropy&dpr=2&fit=crop&fm=jpg&h=750&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1450');">
+    <div class="header header-filter first" style="background-image: url('<?=base_url('resources/img/boerenkool.jpg')?>');">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 header-text">
