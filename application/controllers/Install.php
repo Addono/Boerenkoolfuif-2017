@@ -51,6 +51,10 @@ class Install extends CI_Controller {
                 'type' => 'TINYINT',
                 'constraint' => 1,
             ],
+            'specialty' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
             'score' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,

@@ -10,7 +10,7 @@
             <div class="card card-signup">
                 <?=form_open()?>
                     <div class="header header-primary text-center">
-                        <h4>Log in</h4>
+                        <h4>Inloggen</h4>
                         <?=validation_errors()?>
                         <?php
                         foreach($errors as $error) {
@@ -21,18 +21,20 @@
                     <p class="text-divider"></p>
                     <div class="content">
 
-                        <div class="input-group">
+                        <div class="input-group form-group label-floating">
                             <span class="input-group-addon">
                                 <i class="material-icons">face</i>
                             </span>
-                            <input type="text" name="username" class="form-control" placeholder="Gebruikersnaam..." value="<?=set_value('username')?>" />
+                            <label class="control-label">Gebruikersnaam</label>
+                            <input type="text" name="username" class="form-control" value="<?=set_value('username')?>" />
                         </div>
 
-                        <div class="input-group">
+                        <div class="input-group form-group label-floating">
                             <span class="input-group-addon">
                                 <i class="material-icons">lock_outline</i>
                             </span>
-                            <input type="number" name="password" min="0" max="999999" placeholder="Pin..." class="form-control" />
+                            <label class="control-label">Pincode</label>
+                            <input type="number" name="password" min="0" max="999999" class="form-control" />
                         </div>
                     </div>
                     <div class="footer text-center">

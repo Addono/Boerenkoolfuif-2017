@@ -25,3 +25,12 @@
     margin-left: 0px;
     margin-right: 0px;
 }
+
+.horizontal-align-radio .radio {
+    float: left !important;
+    width: inherit !important;
+}
+
+.radio+.radio {
+    margin-top: 10px !important;
+}

@@ -49,6 +49,31 @@ class Users extends CI_Model {
         return $this->db->count_all_results($this->usersTable) !== 0;
     }
 
+    public function userRole($username) {
+        return $this->db
+            ->where(['username' => $username])
+            ->get($this->usersTable)
+            ->row()
+            ->username;
+    }
+
+    public function getUsernames() {
+        return $this->db
+            ->select(['username'])
+            ->where(['role' => 'user'])
+            ->get($this->usersTable)
+            ->result();
+    }
+
+    public function getId($username) {
+        return $this->db
+            ->where(['username' => $username])
+            ->get($this->usersTable)
+            ->row()
+            ->id;
+
+    }
+
     /**
      * Resets the pin of a user.
      * @param $username

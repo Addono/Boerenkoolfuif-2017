@@ -44,24 +44,44 @@
 
         <div class="collapse navbar-collapse" id="navigation">
             <ul class="nav navbar-nav navbar-right">
-                <?php if($loggedIn) { ?>
+            <?php if($loggedIn) {
+                if($role === 'admin') {?>
+                <!-- Admin specific buttons -->
                 <li>
-                    <a href="<?php echo site_url('account');?>" class="btn btn-simple btn-white" target="_self">
-                        <i class="material-icons">account_box</i> <?php echo $username?>
+                    <a href="<?php echo site_url('add/netherlands');?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">add</i> Nederland
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo site_url('logout');?>" class="btn btn-simple btn-white" target="_self">
-                        <i class="material-icons">exit_to_app</i> UItloggen
+                    <a href="<?php echo site_url('add/belgium');?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">add</i> België
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo site_url('add/germany');?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">add</i> Duitsland
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo site_url('add/france');?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">add</i> Frankrijk
                     </a>
                 </li>
                 <?php } else { ?>
+                <!-- User specific buttons -->
+                <?php } ?>
+                <li>
+                    <a href="<?php echo site_url('logout');?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">exit_to_app</i> Uitloggen
+                    </a>
+                </li>
+            <?php } else { ?>
                 <li>
                     <a href="<?php echo site_url('login');?>" class="btn btn-simple btn-white" target="_self">
                         <i class="material-icons">account_box</i> Inloggen
                     </a>
                 </li>
-                <?php } ?>
+            <?php } ?>
                 <li>
                     <a href="https://twitter.com/impeesa_afoort" target="_blank" class="btn btn-simple btn-white btn-just-icon">
                         <i class="fa fa-twitter"></i>

@@ -6,7 +6,7 @@ class Page extends CI_Controller {
 
     private $data = ['errors' => []];
 
-    public function index($page = self::DefaultValue)
+    public function index($page = self::DefaultValue, $subPage = null)
     {
         // Import all helpers and libraries.
         $this->load->helper([
@@ -14,7 +14,10 @@ class Page extends CI_Controller {
             'form',
             'score',
         ]);
-        $this->load->model('Users');
+        $this->load->model([
+            'Users',
+            'Receipt',
+        ]);
         $this->load->library([
             'session',
             'form_validation'
@@ -23,8 +26,8 @@ class Page extends CI_Controller {
         // Check if the user is logged in
         $this->data['loggedIn'] = $this->session->username !== NULL;
         $this->data['username'] = $this->session->username;
-        if($this->data['loggedIn'] && $page == 'login') {
-            $page = self::DefaultValue;
+        if($this->data['loggedIn']) {
+            $this->data['role'] = $this->Users->userRole($this->data['username']);
         }
 
         $pageType = 'page';
@@ -45,7 +48,7 @@ class Page extends CI_Controller {
         $this->load->view('templates/header', $this->data);
         switch($pageType) {
             case 'page':
-                $this->handlePage($page);
+                $this->handlePage($page, $subPage);
                 if($hasHeader) {
                     $this->load->view($headerPage, $this->data);
                 }
@@ -66,9 +69,112 @@ class Page extends CI_Controller {
      * Handles some actions specific for certain pages.
      * @param $page
      */
-    private function handlePage($page) {
+    private function handlePage($page, $subPage) {
         switch($page) {
+            case 'add':
+                // Check if the user is logged in.
+                if(!$this->data['loggedIn']){
+                    redirect('login');
+                    exit;
+                }
+                // Check if the user is an admin.
+                if($this->data['role'] !== 'admin') {
+                    redirect();
+                    exit;
+                }
+                switch($subPage) {
+                    case null:
+                    case 'netherlands':
+                        $this->data['country'] = 'Nederlands';
+                        $this->data['resources'] = ['Boerenkool', 'Aardappelen', 'Worst'];
+                        break;
+                    case 'germany':
+                        $this->data['country'] = 'Duits';
+                        $this->data['resources'] = ['Sauerkraut', 'Kartoffeln', 'Bradwurst'];
+                        break;
+                    case 'france':
+                        $this->data['country'] = 'Frans';
+                        $this->data['resources'] = ['Rode ui', 'Pommes de Terres', 'Jambon'];
+                        break;
+                    case 'belgium':
+                        $this->data['country'] = 'Belgisch';
+                        $this->data['resources'] = ['Picallily', 'Patat', 'Stoofvlees'];
+                        break;
+                    default:
+                        redirect('pageNotFound');
+                        break;
+                }
+                $this->data['specialties'] = [
+                    'mustard' => 'Zaanse mosterd',
+                    'curry' => 'Curry',
+                    'mayonaise' => 'Zure mayo',
+                    'escargots' => 'Escargots',
+                    'pickle' => 'Augurken',
+                    'union' => 'Amsterdamse ui',
+                    'fryed_union' => 'Gefrituurde ui',
+                    'rosti' => 'Rösti',
+                    'sprouts' => 'Spruiten',
+                    'chocolates' => 'Bonbons',
+                    'ketchup' => 'Ketchup',
+                    'camembert' => 'Camembert',
+                ];
+                $this->data['usernames'] = $this->Users->getUsernames();
+                $rules = [
+                    [
+                        'field' => 'username',
+                        'label' => 'Gebruikersnaam',
+                        'rules' => [
+                            'required',
+                            ['usernameExists', [$this->Users, 'userExists']],
+                        ],
+                        'errors' => [
+                            'required' => 'Geef aan van welke groep het was.',
+                            'usernameExists' => 'Selecteer een gebruiker.',
+                        ],
+                    ],
+                    [
+                        'field' => 'specialty',
+                        'label' => 'Specialiteit',
+                        'rules' => [
+                            'required',
+                        ],
+                        'errors' => [
+                            'required' => 'Geef de specialiteit aan.',
+                        ],
+                    ],
+                ];
+                for($i = 0; $i < 3; $i++) {
+                    $name = $this->data['resources'][$i];
+                    $rules[] = [
+                        [
+                            'field' => 'resource'.$i,
+                            'label' => $name,
+                            'rules' => [
+                                'required',
+                                'less_than_equal_to[6]',
+                                'greater_than[0]',
+                            ],
+                            'errors' => [
+                                'required' => 'Geef de hoeveelheid '.$name.' aan.',
+                                'greater_than[0]' => 'Ongeldige hoeveelheid '.$name.'.',
+                                'less_than_equal_to[6]' => 'Ongeldige hoeveelheid '.$name.'.',
+                            ],
+                        ],
+                    ];
+                }
+                $this->form_validation->set_rules($rules);
+                if($this->form_validation->run()) {
+                    var_dump(1);
+                } else {
+                    var_dump(0);
+                }
+                break;
             case 'login':
+                // Check if the user is already logged in.
+                if($this->data['loggedIn']) {
+                    redirect();
+                    exit;
+                }
                 $rules = [
                     [
                         'field' => 'username',
@@ -99,7 +205,6 @@ class Page extends CI_Controller {
                         ],
                     ],
                 ];
-
                 // Parse all rules individually to enforce the order.
                 $hasError = false;
                 foreach($rules as $rule) {
