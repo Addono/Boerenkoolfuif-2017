@@ -3,9 +3,33 @@
  * @author Adriaan Knapen <a.d.knapen@protonmail.com>
  * @date 29-1-2017
  */
+$class = 'col-lg-6 col-sm-12 col-sm-offset-0';
 ?>
-<div class="text-center section-landing">
-    <h1>Over ons</h1>
-    <h4>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.</h4>
-    <br />
+<div class="">
+    <div class="contentsection-landing">
+        <div class="row">
+            <div class="col-sm-12 col-sm-offset-0">
+                <h2>Doel</h2>
+                <h4>Elke chef heeft een geheim recept voor zijn stamppot. De groepjes moeten dit recept proberen te achterhalen. Voor elke stamppot die bij de chefs wordt ingeleverd worden punten verdiend. </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="">Hoe te spelen</h2>
+            </div>
+
+            <div class="<?=$class?>">
+                <h3>Ingredienten verzamelen</h3>
+                <h4>Ingredienten zijn te krijgen bij de martkooplui die in het speelveld rondlopen. Als je bij een koopman komt noem je een getal (1, 2, 3, 4, 5 of 6) en krijg je zoveel van zijn ingredient. Als je alle basisingredienten verzameld hebt ga je naar de chef.</h4>
+            </div>
+
+            <div class="<?=$class?>">
+                <h3>Bonusingredienten</h3>
+                <h4>Bij de foodvlogger die rondloopt in het spel kun je nog bonusingredienten verdienen. Kies je het juiste ingredient bij je stamppot, dan krijg je een extra punt. Kies je het verkeerde ingredient? Dan kost dit je een punt.</h4>
+            </div>
+        </div>
+        <h1 class="text-center">Veel success!</h1>
+    </div>
+<br />
 </div>

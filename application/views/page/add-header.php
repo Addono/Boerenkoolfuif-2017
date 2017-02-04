@@ -85,7 +85,7 @@
                                 <td>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="specialty" value="<?=$key?>"  <?=!$success&&set_value('specialty')===$key?'checked ':false?>/>
+                                            <input type="radio" name="specialty" value="<?=$key?>" <?=(((!$success||set_value('specialty')=='')&&set_value('specialty')===$key)||($success&&$key=='non'))?'checked ':false/*You like logic, cuz I do ;)*/?>/>
                                             <?=ucfirst($name)?>
                                         </label>
                                     </div>

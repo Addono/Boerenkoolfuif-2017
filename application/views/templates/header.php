@@ -39,7 +39,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?=site_url()?>">ProlPa StampAwards 2017</a>
+            <a class="navbar-brand" href="<?=site_url()?>">ProlPa TheWorstChef</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navigation">

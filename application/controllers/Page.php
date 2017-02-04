@@ -129,6 +129,7 @@ class Page extends CI_Controller {
                     'chocolates' => 'bonbons',
                     'ketchup' => 'ketchup',
                     'camembert' => 'camembert',
+                    'non' => 'geen',
                 ];
                 $this->data['usernames'] = $this->Users->getUsernames();
                 $rules = [

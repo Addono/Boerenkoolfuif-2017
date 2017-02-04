@@ -14,6 +14,7 @@
             ?>
             <div class="col-md-2 col-md-offset-1">
                 <h2><?=$country?></h2>
+                <?php if(count($top[$key])!==0) {?>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -35,6 +36,9 @@
                     <?php } ?>
                     </tbody>
                 </table>
+                <?php } else { ?>
+                    <h4>Voor <?=$country?> zijn er nog geen scores behaald.</h4>
+                <?php } ?>
             </div>
             <?php } ?>
         </div>

@@ -5,5 +5,5 @@
  */
 ?>
 <div class="col-md-6 vmargin">
-    <h1>Welkom bij de StampAwards 2017</h1>
-    <h4>Elk jaar organiseert ProlPa de StampAwards, dit jaar zijn we te gast bij Scouting Impeesa waar de wedstrijd in het teken staat van stampotten.</h4>
+    <h1>Welkom bij <b>TheWorstChef!</b></h1>
+    <h4>Prolpa, een nieuwe tv-zender in de regio, maakt het programma <b>TheWorstChef</b>. In deze show wordt gezocht naar de beste stamppotten chefs van Europa. Om de stamppotten te beoordelen zitten er vier chefs uit verschillende landen in de jury.</h4>
