@@ -42,4 +42,11 @@ class Receipt extends CI_Model {
             return false;
         }
     }
+
+    public function getUserReceipts($username) {
+        return $this->db
+            ->where(['group_id' => $this->Users->getId($username)])
+            ->get($this->receiptsTable)
+            ->result();
+    }
 }

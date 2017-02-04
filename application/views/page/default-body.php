@@ -10,7 +10,7 @@ $class = 'col-lg-6 col-sm-12 col-sm-offset-0';
         <div class="row">
             <div class="col-sm-12 col-sm-offset-0">
                 <h2>Doel</h2>
-                <h4>Elke chef heeft een geheim recept voor zijn stamppot. De groepjes moeten dit recept proberen te achterhalen. Voor elke stamppot die bij de chefs wordt ingeleverd worden punten verdiend. </h4>
+                <h4>Elke chef heeft een geheim recept voor zijn stamppot. De groepjes moeten dit recept proberen te achterhalen. Voor elke stamppot die bij de chefs wordt ingeleverd haal je een score, de hoogste score voor elke regio telt. </h4>
             </div>
         </div>
 

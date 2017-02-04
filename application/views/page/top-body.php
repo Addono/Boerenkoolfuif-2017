@@ -37,7 +37,7 @@
                     </tbody>
                 </table>
                 <?php } else { ?>
-                    <h4>Voor <?=$country?> zijn er nog geen scores behaald.</h4>
+                    <h4>Voor <?=$country?> zijn er nog geen recepten ingeleverd.</h4>
                 <?php } ?>
             </div>
             <?php } ?>

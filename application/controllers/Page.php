@@ -75,7 +75,40 @@ class Page extends CI_Controller {
      * @param $page
      */
     private function handlePage($page, $subPage) {
+        $this->data['specialties'] = [
+            'mustard' => 'zaanse mosterd',
+            'curry' => 'curry',
+            'mayonaise' => 'zure mayo',
+            'escargots' => 'escargots',
+            'pickle' => 'augurken',
+            'union' => 'amsterdamse ui',
+            'fryed_union' => 'gefrituurde ui',
+            'rosti' => 'rösti',
+            'sprouts' => 'spruiten',
+            'chocolates' => 'bonbons',
+            'ketchup' => 'ketchup',
+            'camembert' => 'camembert',
+            'non' => 'geen',
+        ];
+        $this->data['countryFriendly'] = [
+            'netherlands' => 'Nederland',
+            'belgium' => 'België',
+            'france' => 'Frankrijk',
+            'germany' => 'Duitsland',
+        ];
         switch($page) {
+            case 'receipts':
+                // Prevent unauthorized users from accessing this page.
+                if(
+                    !$this->data['loggedIn'] // Check if the user is logged in.
+                        ||
+                    $this->Users->userRole($this->session->username)!=='user' // And if the user is a user.
+                ) {
+                    redirect('login');
+                    exit;
+                }
+                $this->data['receipts'] = $this->Receipt->getUserReceipts($this->session->username);
+                break;
             case 'top':
                 $countries = ['netherlands', 'belgium', 'france', 'germany'];
                 foreach($countries as $country) {
@@ -116,21 +149,6 @@ class Page extends CI_Controller {
                         redirect('pageNotFound');
                         break;
                 }
-                $this->data['specialties'] = [
-                    'mustard' => 'zaanse mosterd',
-                    'curry' => 'curry',
-                    'mayonaise' => 'zure mayo',
-                    'escargots' => 'escargots',
-                    'pickle' => 'augurken',
-                    'union' => 'amsterdamse ui',
-                    'fryed_union' => 'gefrituurde ui',
-                    'rosti' => 'rösti',
-                    'sprouts' => 'spruiten',
-                    'chocolates' => 'bonbons',
-                    'ketchup' => 'ketchup',
-                    'camembert' => 'camembert',
-                    'non' => 'geen',
-                ];
                 $this->data['usernames'] = $this->Users->getUsernames();
                 $rules = [
                     [

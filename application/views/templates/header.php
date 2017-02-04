@@ -27,7 +27,7 @@
     <link href="<?=base_url('resources/css/style.css')?>" rel="stylesheet" />
 </head>
 
-<body>
+<body style="background-image: url('<?=base_url('resources/img/boerenkool.jpg')?>')">
 
 <nav class="navbar navbar-transparent navbar-absolute">
     <div class="container">
@@ -39,7 +39,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?=site_url()?>">ProlPa TheWorstChef</a>
+            <a class="navbar-brand" href="<?=site_url()?>">
+                <b>ProlPa TheWorstChef</b> <?=$loggedIn?ucfirst($username):false?>
+            </a>
         </div>
 
         <div class="collapse navbar-collapse" id="navigation">
@@ -72,8 +74,13 @@
                         <i class="material-icons">add</i> Frankrijk
                     </a>
                 </li>
-                <?php } else { ?>
+                <?php } elseif($role === 'user') { ?>
                 <!-- User specific buttons -->
+                <li>
+                    <a href="<?=site_url('receipts')?>" class="btn btn-simple btn-white" target="_self">
+                        <i class="material-icons">receipt</i> Mijn recepten
+                    </a>
+                </li>
                 <?php } ?>
                 <li>
                     <a href="<?=site_url('logout')?>" class="btn btn-simple btn-white" target="_self">
@@ -103,6 +110,6 @@
 </nav>
 
 <div class="wrapper">
-    <div class="header header-filter first" style="background-image: url('<?=base_url('resources/img/boerenkool.jpg')?>');">
+    <div class="header header-filter first">
         <div class="container">
             <div class="row">

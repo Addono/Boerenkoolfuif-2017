@@ -58,7 +58,7 @@ class Users extends CI_Model {
             ->where(['username' => $username])
             ->get($this->usersTable)
             ->row()
-            ->username;
+            ->role;
     }
 
     public function getUsernames() {
