@@ -108,7 +108,7 @@ class Users extends CI_Model {
         return $pin;
     }
 
-    public function topUsers($region, $amount = 10) {
+    public function topUsers($region, $amount = 20) {
         return $this->db
             ->select($this->usersTable.'.username')
             ->select_max($this->receiptsTable.'.score')
@@ -116,7 +116,7 @@ class Users extends CI_Model {
             ->where($this->usersTable.'.id = '.$this->receiptsTable.'.group_id')
             ->group_by($this->usersTable.'.username')
             ->limit($amount)
-            ->order_by($this->receiptsTable.'.score', 'DESC')
+            ->order_by('score', 'DESC')
             ->get([$this->usersTable, $this->receiptsTable])
             ->result();
     }

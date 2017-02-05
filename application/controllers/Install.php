@@ -56,8 +56,7 @@ class Install extends CI_Controller {
                 'constraint' => 255,
             ],
             'score' => [
-                'type' => 'TINYINT',
-                'constraint' => 1,
+                'type' => 'FLOAT',
             ],
             'country' => [
                 'type' => 'ENUM("netherlands","belgium","france","germany")',

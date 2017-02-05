@@ -55,11 +55,11 @@ if (!function_exists('calculateScore')) {
         } else {
             $score -= 1;
         }
-        $score += (5/3) * normalDistributionRatio($veg, $ratio[0]);
-        $score += (5/3) * normalDistributionRatio($potato, $ratio[1]);
-        $score += (5/3) * normalDistributionRatio($meat, $ratio[2]);
+        $score += (4/3) * normalDistributionRatio($veg, $ratio[0]);
+        $score += (4/3) * normalDistributionRatio($potato, $ratio[1]);
+        $score += (4/3) * normalDistributionRatio($meat, $ratio[2]);
 
-        return min([10, round($score)]);
+        return min([10.0, round($score,1)]);
     }
 }
 
