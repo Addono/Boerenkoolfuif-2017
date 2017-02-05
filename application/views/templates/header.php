@@ -40,7 +40,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="<?=site_url()?>">
-                <b>ProlPa TheWorstChef</b> <?=$loggedIn?ucfirst($username):false?>
+                <b>PROLpa TheWorstChef</b> <?=$loggedIn?ucfirst($username):false?>
             </a>
         </div>
 
@@ -111,23 +111,5 @@
 
 <div class="wrapper">
     <div class="header header-filter first">
-        <!--
-        <div class="container">
-            <div class="row text-center vmargin">
-                <h1><b>Doneer nu!</b></h1>
-                <?php
-                $links = [
-                    '€3' => 'https://www.ing.nl/particulier/betaalverzoek/index.html?trxid=2i7T495mThukCl0uBqGZJeMwy0JwVxMt',
-                    '€6' => 'https://www.ing.nl/particulier/betaalverzoek/index.html?trxid=lDzHu3hDTkTGFaAwfQmqgxNz2U1xGF0A',
-                    '€10' => 'https://www.ing.nl/particulier/betaalverzoek/index.html?trxid=I2xItWr7ZXyJI8bhEuoecTwpjUYuEzNT',
-                ];
-                foreach($links as $title => $link) {
-                ?>
-                <a href="<?=$link?>" target="_blank">
-                    <button class="btn btn-primary btn-round btn-lg" ><?=$title?></button>
-                </a>
-                <?php } ?>
-            </div>
-        </div> -->
         <div class="container">
             <div class="row">
